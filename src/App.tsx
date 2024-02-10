@@ -8,6 +8,7 @@ import { Box, Button, ListItem } from "@mui/material"
 import "./App.css"
 import { useEffect, useState } from "react"
 import IService from "./types/IService"
+import InnerList from "./components/InnerList"
 
 export default function App() {
 	const [selectedIndex, setSelectedIndex] = useState<null | number>(null)
@@ -51,8 +52,8 @@ export default function App() {
 			<List
 				sx={{
 					width: "100%",
-					maxWidth: 420,
-					minWidth: 350,
+					maxWidth: 400,
+					minWidth: 400,
 					bgcolor: "#181818",
 					marginTop: 2
 				}}
@@ -105,102 +106,12 @@ export default function App() {
 									timeout="auto"
 									unmountOnExit
 								>
-									<List component="div" disablePadding>
-										{data.map((item2: IService) => {
-											return (
-												<>
-													{item2.head === item.id && (
-														<>
-															<ListItem
-																key={item2.id}
-																sx={{ ml: 2 }}
-															>
-																<ListItemButton
-																	onClick={() =>
-																		handleInnerClick(
-																			item2.id
-																		)
-																	}
-																>
-																	<ListItemText
-																		sx={{
-																			"& span":
-																				{
-																					fontWeight:
-																						item.node ===
-																						1
-																							? 600
-																							: 400
-																				}
-																		}}
-																		primary={
-																			item2.name
-																		}
-																	/>
-																	{item.node ===
-																	1 ? (
-																		item2.id ===
-																		selectedInnerIndex ? (
-																			<ExpandLess />
-																		) : (
-																			<ExpandMore />
-																		)
-																	) : (
-																		""
-																	)}
-																</ListItemButton>
-															</ListItem>
-															<Collapse
-																in={
-																	item2.id ===
-																	selectedInnerIndex
-																}
-																timeout="auto"
-																unmountOnExit
-															>
-																<List
-																	component="div"
-																	disablePadding
-																	sx={{
-																		ml: 2
-																	}}
-																>
-																	{data.map(
-																		(
-																			item3: IService
-																		) => {
-																			return (
-																				<>
-																					{item3.head ===
-																						item2.id && (
-																						<ListItem>
-																							<ListItemButton>
-																								<ListItemText
-																									primary={
-																										`${item3.name}` +
-																										`${
-																											item.node ===
-																											1
-																												? ` - ${item3.price}`
-																												: ""
-																										}`
-																									}
-																								/>
-																							</ListItemButton>
-																						</ListItem>
-																					)}
-																				</>
-																			)
-																		}
-																	)}
-																</List>
-															</Collapse>
-														</>
-													)}
-												</>
-											)
-										})}
-									</List>
+									<InnerList
+										data={data}
+										item={item}
+										selectedInnerIndex={selectedInnerIndex}
+										handleInnerClick={handleInnerClick}
+									/>
 								</Collapse>
 							</>
 						)
